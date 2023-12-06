@@ -18,8 +18,12 @@ function M.add_diacritics()
   )
 
   local file = io.popen(command)
-  local output = file:read("*a")
-  file:close()
+  local output = (file):read("*a")
+  if not output or output == "" then
+    print("Error executing command or empty output")
+    return
+  end
+  (file):close()
 
   local output_table = {}
   for line in output:gmatch("[^\r\n]+") do
@@ -40,5 +44,6 @@ function M.setup()
 end
 
 return M
+
 
 
