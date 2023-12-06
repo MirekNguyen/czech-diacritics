@@ -25,11 +25,13 @@ function M.add_diacritics()
   for line in output:gmatch("[^\r\n]+") do
     table.insert(output_table, line)
   end
+  local offset = 0
   for line_num = start_line, end_line do
-    if output_table[line_num] then
-      vim.fn.setline(line_num, output_table[line_num])
-    else
+    if (vim.fn.getline(line_num) == "") then
       vim.fn.setline(line_num, "")
+      offset = offset + 1
+    else
+      vim.fn.setline(line_num, output_table[line_num - offset])
     end
   end
 end
@@ -38,4 +40,5 @@ function M.setup()
 end
 
 return M
+
 
